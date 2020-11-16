@@ -14,9 +14,6 @@ public class ItemDAO {
 	Scanner scanner = new Scanner(System.in);
 	//inputting login details to database
 	public ItemDAO(){
-		String username = "root"; //scanner.nextLine();
-		String password = "Passwordunknown123!"; //scanner.nextLine();
-		DBInstance = db_Connection.connect(username , password); //username, password
 		
 	}
 	
