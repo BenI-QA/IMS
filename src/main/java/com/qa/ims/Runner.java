@@ -12,8 +12,8 @@ public class Runner {
 	public static void main(String[] args) {
 		
 		LOGGER.info("Welcome to this Item Management System!");
-		imsMain menu = new imsMain();
-		menu.start();
+		IMS menu = new IMS();
+		menu.menu();
 		
 
 	  

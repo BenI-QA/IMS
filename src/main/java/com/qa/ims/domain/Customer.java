@@ -3,7 +3,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Customer {
-	private int ID = 0 ;
+	private int ID;
 	private String first_name;
 	private String last_name;
 	private String email;
@@ -14,7 +14,7 @@ public class Customer {
 	
 	
 	public Customer(int iD, String f_name, String l_name, String email, int phone) {
-		ID = iD;
+		this.ID = iD;
 		this.first_name = f_name;
 		this.last_name= l_name;
 		this.email = email;
@@ -72,6 +72,11 @@ public class Customer {
 	}
 	public void setPhone(int phone) {
 		this.phone = phone;
+	}
+	
+	@Override
+	public String toString() {
+		return "id:" + ID + " first name:" + first_name + " surname:" + last_name + " Email:" + email + " Phone No.:"+phone ;
 	}
 
 }
