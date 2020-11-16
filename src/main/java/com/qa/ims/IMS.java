@@ -23,7 +23,7 @@ public class IMS {
 		
 		this.customers = new MenuCus();
 		this.items = new MenuItem();
-		this.orders new MenuOrder();
+		this.orders = new MenuOrder();
 		
 	}
 
