@@ -12,7 +12,7 @@ public class ItemDAO {
 	db_Connection DBInstance;
 	ResultSet res  = null;
 	Scanner scanner = new Scanner(System.in);
-	//inputting login details to database
+	
 	public ItemDAO(){
 		
 	}
