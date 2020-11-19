@@ -21,11 +21,17 @@ import com.qa.ims.util.DBUtils;
 public class OrderDAO {
 	
 	private static Logger LOGGER = LogManager.getLogger();
-	DBUtils DBInstance;
-	ResultSet res  = null;
+	DBUtils dbutils;
+	
 	Utils util = new Utils();
 	
-	//inputting login details to database
+	public OrderDAO(){
+		this.dbutils = DBUtils.getInstance();
+	}
+	public OrderDAO(DBUtils dbutils) {
+		this.dbutils = dbutils;
+	}
+	
 	
 	public Order create(Order order) {
 		String m_query, sec_query;// stock_query;
@@ -211,12 +217,10 @@ public class OrderDAO {
 	}
 	
 	public static Order convertread(ResultSet result ) throws SQLException {
-		Date utilDate = new java.util.Date();
-	    Date order_date = new java.sql.Date(utilDate.getTime());
 		
+	    Date order_date = result.getDate("order_date");
 		Long id = result.getLong("order_id");
 		Long cust_id =result.getLong("customer_id");
-	
 		double totalPrice = result.getDouble("Total_Price");
 	
 		return new Order(id, order_date, totalPrice, cust_id );

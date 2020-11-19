@@ -16,13 +16,16 @@ import com.qa.ims.util.DBUtils;
 
 
 public class ItemDAO {
-	DBUtils DBInstance;
+	DBUtils dbutil;
 	private static Logger LOGGER = LogManager.getLogger();
-	ResultSet res  = null;
+
 
 	//inputting login details to database
 	public ItemDAO(){
-	
+		this.dbutil = DBUtils.getInstance();
+	}
+	public ItemDAO(DBUtils dbutils) {
+		this.dbutil = dbutils;
 	}
 	
 	public Item create(Item Item) {
@@ -91,7 +94,7 @@ public class ItemDAO {
 		query = "UPDATE Item SET size = " + size + ", price = " + price + ", stock = " + stock +
 				" WHERE item_name = '" +name+"' AND size="+size+";" ;
 		
-		try(Connection connection = DBUtils.getInstance().getConnection();
+		try(Connection connection =DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
 				statement.executeUpdate(query);
 		} catch (SQLException e) {

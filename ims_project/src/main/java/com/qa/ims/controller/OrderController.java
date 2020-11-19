@@ -74,7 +74,11 @@ public class OrderController implements CrudController<Order>{
 
 	@Override
 	public List<Order> readAll() {
-		LOGGER.info("View all or View an individual Order data?");
+		List<Customer> customers = custDAO.readAll();
+		for (Customer customer : customers) {
+			LOGGER.info(customer.toString());
+		}
+		LOGGER.info("\n View all or View an individual Order data?");
 		LOGGER.info("   1) All \n   2) Single \n");
 		String selection=  util.getString().toLowerCase();
 	

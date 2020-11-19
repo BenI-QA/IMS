@@ -17,7 +17,7 @@ import com.qa.ims.util.Utils;
 public class IMS {
 	
 	public static final Logger LOGGER = LogManager.getLogger();
-	DBUtils DBInstance;
+	DBUtils dbutil;
 	
 	private final CustomerController customers;
 	private final ItemController items;
@@ -40,7 +40,7 @@ public class IMS {
 		LOGGER.info("What is your password \n");
 		String password = util.getString();
 
-		DBInstance = DBUtils.connect(username, password);
+		dbutil = DBUtils.connect(username, password);
 		
 		LOGGER.info(" Select an option below:");
 		LOGGER.info("  1) Customer \n  2) Order \n  3) Item \n  4) Exit \n   ");

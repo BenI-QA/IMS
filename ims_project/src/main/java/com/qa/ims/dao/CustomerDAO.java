@@ -20,10 +20,15 @@ import org.apache.logging.log4j.Logger;
 public class CustomerDAO {
 	
 	private static Logger LOGGER = LogManager.getLogger();
-	DBUtils DBInstance;
-	ResultSet res  = null;
-	Scanner scanner = new Scanner(System.in);
-	Utils util = new Utils();
+	private DBUtils dbutils;
+	
+	public CustomerDAO() {
+		this.dbutils = DBUtils.getInstance();
+	}
+	
+	public CustomerDAO(DBUtils dbutils) {
+		this.dbutils = dbutils;
+	}
 	
 	public Customer create(Customer cust) {
 		String query;
@@ -49,7 +54,7 @@ public class CustomerDAO {
 	public Customer readLatest() {
 		String query;
 		query = "SELECT * FROM Customer ORDER BY customer_id DESC LIMIT 1";
-		try (Connection connection = DBUtils.getInstance().getConnection();
+		try (Connection connection =DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery(query);){
 				
