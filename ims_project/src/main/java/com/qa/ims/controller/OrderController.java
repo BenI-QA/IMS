@@ -87,6 +87,7 @@ public class OrderController implements CrudController<Order>{
 				List<Order> orders = orderDAO.readAll();
 				for (Order order : orders) {
 					LOGGER.info(order.toStringTotal());
+					
 				}
 				
 				return orders;
@@ -98,10 +99,11 @@ public class OrderController implements CrudController<Order>{
 				LOGGER.info("List Of Orders: \n");
 				List<Order> singleOrder= orderDAO.read(id);
 				for (Order order : singleOrder) {
-					LOGGER.info(order.toStringSingle()+"\n");
+					LOGGER.info(order.toStringSingle());
 				}
+				LOGGER.info("\n");
 				return singleOrder;
-			
+				
 		}
 		
 	}
@@ -113,12 +115,21 @@ public class OrderController implements CrudController<Order>{
 
 	@Override
 	public Order update() {
-		readAll();
+		LOGGER.info("\n Select customer id you wish to edit \n");
+		Long id=  util.getLong();
+		List<Order> singleOrder= orderDAO.read(id);
+		for (Order order : singleOrder) {
+			LOGGER.info(order.toStringSingle());
+		}
 		LOGGER.info("\n Would you like to add to order or edit current order \n");
 		LOGGER.info("  1) Add  \n   2) Edit  \n");
 		String select=  scanner.nextLine().toLowerCase();
 		LOGGER.info("\n State the order ID");
 		long o_id=  util.getLong(); 
+		List<Item> items = itemDAO.readAll();
+		for (Item item : items) {
+		LOGGER.info(item.toString());
+		}
 		LOGGER.info("\n State the item ID");
 		long i_id=  util.getLong();
 		LOGGER.info("\n State the quantity to be added");

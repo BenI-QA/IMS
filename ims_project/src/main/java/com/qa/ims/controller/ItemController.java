@@ -38,6 +38,7 @@ public class ItemController implements CrudController<Item>{
 		LOGGER.info("Number in Stock");
 		long stock = util.getLong();
 		Item newItem = itemDAO.create(new Item(item_name, size, price, stock));
+		LOGGER.info("\n");
 		return newItem;
 	}
 	
@@ -52,6 +53,7 @@ public class ItemController implements CrudController<Item>{
 		for (Item item : items) {
 			LOGGER.info(item.toString());
 		}
+		
 		return items;	
 		
 	}
@@ -74,11 +76,11 @@ public class ItemController implements CrudController<Item>{
 		double price = util.getDouble();
 		LOGGER.info("Change amount in stock");
 		long stock = util.getLong();
-
-		itemDAO.update(new Item(name,size,price,stock));
-	
+		LOGGER.info("\n");
+		return itemDAO.update(new Item(name,size,price,stock));
 		
-		return null;
+		
+		
 	}
 	
 	/**
@@ -90,6 +92,7 @@ public class ItemController implements CrudController<Item>{
 	@Override
 	public Item delete() {
 		readAll();
+		LOGGER.info("\n");
 		//user can select either to delete a customer from system with either their id or name
 		LOGGER.info("Do you want to delete record by Item ID");
 		long id = util.getLong();
