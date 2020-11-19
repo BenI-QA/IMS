@@ -35,9 +35,9 @@ public class IMS {
 
 	public void systemStart() {
 		LOGGER.info("What is your username");
-		String username = "root";//scanner.nextLine();
+		String username = scanner.nextLine();
 		LOGGER.info("What is your password \n");
-		String password = "Passwordunknown123!";//scanner.nextLine();
+		String password = scanner.nextLine();
 
 		DBInstance = DBUtils.connect(username, password);
 		
