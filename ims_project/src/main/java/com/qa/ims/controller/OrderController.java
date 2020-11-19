@@ -39,8 +39,7 @@ public class OrderController implements CrudController<Order>{
 	@Override
 	public Order create() {
 		
-		Date utilDate = new java.util.Date();
-	    Date order_date = new java.sql.Date(utilDate.getTime());
+		Date order_date = util.getDate();
 	    List<Customer> customers = custDAO.readAll();
 		for (Customer customer : customers) {
 			LOGGER.info(customer.toString());

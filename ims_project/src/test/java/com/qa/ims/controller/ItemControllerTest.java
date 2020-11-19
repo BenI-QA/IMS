@@ -1,6 +1,7 @@
 package com.qa.ims.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -23,11 +24,7 @@ import com.qa.ims.dao.ItemDAO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ItemControllerTest {
-	
-
-	//mockito can create madeup inputs for objects
-		
-		
+			
 		@Mock
 		private ItemDAO itemDAO;
 		
@@ -97,10 +94,10 @@ public class ItemControllerTest {
 		public void testDelete() {
 			final long id = 1L;
 
-			when(utils.getLong()).thenReturn(id);
-			when(itemDAO.deleteById(id)).thenReturn(1);
+			when(this.utils.getLong()).thenReturn(id);
+			when(this.itemDAO.deleteById(id)).thenReturn(null);
 
-			assertEquals(1L, this.itemCon.delete());
+			assertNull(null, itemCon.delete());
 
 			verify(utils, times(1)).getLong();
 			verify(itemDAO, times(1)).deleteById(id);

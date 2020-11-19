@@ -30,18 +30,18 @@ import com.qa.ims.dao.OrderDAO;
 @RunWith(MockitoJUnitRunner.class)
 public class OrderControllerTest {
 
-	//mockito can create madeup inputs for objects
 		@Mock
 		private DBUtils db_Conn;
 		
 		@Mock
-		private OrderController orderCon;
+		private OrderDAO orderDAO;
+		
 		
 		@Mock
 		private Utils utils;
 			
 		@InjectMocks
-		private OrderDAO orderDAO;
+		private OrderController orderCon;
 		
 		@Test
 		public void testCreate() {
@@ -58,21 +58,21 @@ public class OrderControllerTest {
 			when(utils.getLong()).thenReturn(id,item_id,quantity,cust_id);
 			when(orderDAO.create(order)).thenReturn(order);
 
-			assertEquals(customer, custCon.create());
+			assertEquals(order, orderCon.create());
 
-			verify(utils, Mockito.times(3)).getString();
-			verify(utils, Mockito.times(1)).getLong();
-			verify(custDAO, Mockito.times(1)).create(customer);
+			verify(utils, times(3)).getString();
+			verify(utils, times(1)).getLong();
+			verify(orderDAO, times(1)).create(order);
 		}
+		@Test
 		public void testRead() {
 			final long id = 2L;
-			final Date utilDate = new java.util.Date();
-		    final Date order_date = new java.sql.Date(utilDate.getTime());
+			final Date order_date = utils.getDate();
 			final long item_id = 1L;
 			final long quantity = 5L;
 			final long cust_id = 2L;
-			List<Order> expected = new ArrayList<>();
-			final Order orders = new Order(id, order_date, item_id, quantity, cust_id);
+			List<Order> orders = new ArrayList<>();
+			orders.add(new Order(id, order_date, item_id, quantity, cust_id));
 
 			when(orderDAO.readAll()).thenReturn(orders);
 
@@ -81,6 +81,7 @@ public class OrderControllerTest {
 			verify(orderDAO, times(1)).readAll();
 			
 		}
+		@Test
 		public void testUpdate() {
 			final long o_id = 2L;
 			final long i_id = 3L;
@@ -99,6 +100,7 @@ public class OrderControllerTest {
 			verify(this.orderDAO, times(1)).update();
 			
 		}
+		@Test
 		public void testDelete() {
 			final long id = 1L;
 

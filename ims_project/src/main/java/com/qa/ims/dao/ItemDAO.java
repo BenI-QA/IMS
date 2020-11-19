@@ -113,18 +113,6 @@ public class ItemDAO {
 			e.printStackTrace();
 		}
 	}
-	public void deleteByName(String name, double size) {
-		String query;
-		query = "DELETE FROM Item WHERE item_name = '" + name + "'AND size = "+ size+";" ;
-		try (Connection connection = DBUtils.getInstance().getConnection();
-				Statement statement = connection.createStatement();){
-				statement.executeUpdate(query);
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	
-	}
 	
 	public static Item convert(ResultSet result) throws SQLException {
 		long id = result.getInt("item_id");
