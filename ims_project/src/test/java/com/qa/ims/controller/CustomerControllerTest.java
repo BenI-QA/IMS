@@ -1,6 +1,7 @@
 package com.qa.ims.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -70,15 +71,14 @@ public class CustomerControllerTest {
 	
 	@Test
 	public void testUpdate() {
-		Long id = 2L;
 		String f_name ="jake";
 		String l_name = "mac";
-		String email = "jm@gmail.com";
-		Long phone = 0232323L ;
-		Customer updated = new Customer(id, f_name, l_name, email, phone);
+		String email = "change@gmail.com";
+		Long phone = 1234L ;
+		Customer updated = new Customer(f_name, l_name, email, phone);
 			
-		when(this.utils.getLong()).thenReturn(1L);
-		when(this.utils.getString()).thenReturn(updated.getFirst_name(), updated.getLast_name());
+		when(this.utils.getString()).thenReturn(updated.getFirst_name(), updated.getLast_name(),updated.getEmail());
+		when(this.utils.getLong()).thenReturn(updated.getPhone());
 		when(this.custDAO.update(updated)).thenReturn(updated);
 
 		assertEquals(updated, this.custCon.update());
@@ -92,8 +92,8 @@ public class CustomerControllerTest {
 	public void testDelete() {
 		final long id = 1L;
 		when(utils.getLong()).thenReturn(id);
-		when(custDAO.deleteById(id)).thenReturn(1);
-		assertEquals(1L, this.custDAO.deleteById(id));
+		when(custDAO.deleteById(id)).thenReturn(null);
+		assertNull(null,this.custDAO.deleteById(id));
 		verify(utils, times(1)).getLong();
 		verify(custDAO, times(1)).deleteById(id);
 			

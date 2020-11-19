@@ -86,9 +86,8 @@ public class CustomerController implements CrudController<Customer>  {
 		Long phone = util.getLong();
 		f_name = f_name.toLowerCase();
 		l_name = l_name.toLowerCase();
-		custDAO.update(new Customer(f_name, l_name, email, phone));
+		return custDAO.update(new Customer(f_name, l_name, email, phone));
 	
-		return null;
 	}
 	
 	/**
@@ -100,6 +99,8 @@ public class CustomerController implements CrudController<Customer>  {
 	@Override
 	public Customer delete() {
 		//user can select either to delete a customer from system with either their id or name
+				readAll();
+				
 				LOGGER.info("Do you watch to delete by Customer ID or Customer Name?");
 				LOGGER.info("  1) ID \n  2) Name");
 				String option = util.getString().toLowerCase();
