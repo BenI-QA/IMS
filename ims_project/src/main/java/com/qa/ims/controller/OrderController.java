@@ -25,9 +25,10 @@ public class OrderController implements CrudController<Order>{
 	Utils util = new Utils();
 	Scanner scanner = new Scanner(System.in);
 		
-	public OrderController(OrderDAO orderDAO) {
+	public OrderController(OrderDAO orderDAO, Utils util) {
 		super();
 		this.orderDAO = orderDAO;
+		this.util = util;
 	
 	}
 	
@@ -38,51 +39,32 @@ public class OrderController implements CrudController<Order>{
 	@Override
 	public Order create() {
 		
-		Date utilDate = new java.util.Date();
-	    Date order_date = new java.sql.Date(utilDate.getTime());
+		Date order_date = util.getDate();
 	    List<Customer> customers = custDAO.readAll();
 		for (Customer customer : customers) {
 			LOGGER.info(customer.toString());
 		}
-	    custDAO.readAll();
-		LOGGER.info("\n Select id of customer you wish make an Order for");
+	   
+		LOGGER.info("\n Select id of customer ?");
 		long cust_id = util.getLong();
-		int counter = 0;
-		while(counter < 5) {
-			if (counter == 0) {
-				List<Item> items = itemDAO.readAll();
-				for (Item item : items) {
-					LOGGER.info(item.toString());
-				}
-				LOGGER.info("Add to Order \n ");
+		String done = "yes";
+		do {
+			//reads all items available
+			List<Item> items = itemDAO.readAll();
+			for (Item item : items) {
+			LOGGER.info(item.toString());
 			}
-			
-			
-			//read all shoes here
+			LOGGER.info("Add to Order \n ");
 			LOGGER.info("Select the id of the shoe from above \n ");
 			long item_id = util.getLong();
 			LOGGER.info("How many of this pair would you like to purchase?\n ");
 			long quantity = util.getLong();
-			
-			if(counter == 0) {
-			orderDAO.create(new Order(order_date, item_id, quantity, cust_id));
-			counter++;
-			}
-			else {
-				
-				LOGGER.info("List Of Orders: \n");
-				orderDAO.readAll();
-				
-				LOGGER.info("Input Order ID of your order?");
-				long order_id =  util.getLong();
-				orderDAO.updateAdd(order_id, item_id, quantity);
-				counter++;
-			}
-			
-			
-		}
-		return null;
-		
+			orderDAO.create(new Order(order_date, item_id, quantity, cust_id));	
+			LOGGER.info("Would you like to add to your order? \n ");
+			LOGGER.info("   1) Yes \n   2) No \n ");
+			done = util.getString().toLowerCase();
+		}while(done.equals("yes"));
+	return null;
 	}
 	
 	/**

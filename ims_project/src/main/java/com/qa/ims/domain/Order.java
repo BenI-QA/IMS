@@ -44,6 +44,10 @@ public class Order {
 		
 		
 	}
+	public Order(Date order_date, Long cust_id) {
+		this.order_date = order_date;
+		this.cust_id = cust_id;
+	}
 	
 	public Long getId() {
 		return id;

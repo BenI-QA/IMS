@@ -54,14 +54,15 @@ public class OrderDAO {
 
 	public Order readLatest() {
 		String query;
-		query = "SELECT * FROM Order_ ORDER BY order_ DESC LIMIT 1;";
+
+		query = "SELECT * FROM Order_ ORDER BY order_id DESC LIMIT 1;";
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery(query);){
 				
 			resultSet.next();
 				
-			return convert(resultSet);
+			return convertcreate(resultSet);
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
@@ -86,7 +87,7 @@ public class OrderDAO {
 				List<Order> orders = new ArrayList<>();
 				while (resultSet.next()) {
 				
-					orders.add(convert(resultSet));
+					orders.add(convertread(resultSet));
 					
 				
 				}
@@ -209,7 +210,7 @@ public class OrderDAO {
 	
 	}
 	
-	public static Order convert(ResultSet result ) throws SQLException {
+	public static Order convertread(ResultSet result ) throws SQLException {
 		Date utilDate = new java.util.Date();
 	    Date order_date = new java.sql.Date(utilDate.getTime());
 		
@@ -229,6 +230,12 @@ public class OrderDAO {
 		double price = result.getInt("price");
 		long quantity = result.getInt("quantity");
 		return new Order(id, cust_id, item_name, price, quantity);
+	}
+	public static Order convertcreate(ResultSet result) throws SQLException {
+
+		Date order_date = result.getDate("order_date");
+		Long cust_id = result.getLong("customer_id");
+		return new Order(order_date, cust_id);
 	}	
 }
 

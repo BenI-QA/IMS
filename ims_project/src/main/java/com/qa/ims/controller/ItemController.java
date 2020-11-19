@@ -17,9 +17,10 @@ public class ItemController implements CrudController<Item>{
 	ItemDAO itemDAO = new ItemDAO();
 	Utils util = new Utils();
 	
-	public ItemController(ItemDAO itemDAO) {
+	public ItemController(ItemDAO itemDAO, Utils util) {
 		super();
 		this.itemDAO = itemDAO;
+		this.util = util;
 	}
 	
 	/**
@@ -88,24 +89,13 @@ public class ItemController implements CrudController<Item>{
 
 	@Override
 	public Item delete() {
+		readAll();
 		//user can select either to delete a customer from system with either their id or name
-				LOGGER.info("Do you want to delete record by Item ID or Item Name?");
-				LOGGER.info("  1) ID  \n  2) Name");
-				String option = util.getString().toLowerCase();
-				switch (option) {
-					case "id":
-						LOGGER.info("    Select by ID:");
-						long id = util.getLong();
-						itemDAO.deleteById(id);
-						break;
-					case "name":
-						LOGGER.info("    Select by Item Name:");
-						String name = util.getString();
-						LOGGER.info("    Select by Item Size:");
-						Double size = util.getDouble(); 
-						itemDAO.deleteByName(name, size);
-						break;
-				}
+		LOGGER.info("Do you want to delete record by Item ID");
+		long id = util.getLong();
+		itemDAO.deleteById(id);
+				
+				
 		return null;
 	}
 

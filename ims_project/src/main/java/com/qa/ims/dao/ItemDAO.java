@@ -97,7 +97,7 @@ public class ItemDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		LOGGER.info("Item Details for:" + name + " "  + size+ "have been Updated!");
+		LOGGER.info("Item Details for:  " + name + " "  + size+ "  have been Updated!");
 		return readLatest();
 	}
 	
@@ -112,18 +112,6 @@ public class ItemDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-	public void deleteByName(String name, double size) {
-		String query;
-		query = "DELETE FROM Item WHERE item_name = '" + name + "'AND size = "+ size+";" ;
-		try (Connection connection = DBUtils.getInstance().getConnection();
-				Statement statement = connection.createStatement();){
-				statement.executeUpdate(query);
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	
 	}
 	
 	public static Item convert(ResultSet result) throws SQLException {

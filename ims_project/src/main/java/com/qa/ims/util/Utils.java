@@ -1,5 +1,6 @@
 package com.qa.ims.util;
 
+import java.util.Date;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
@@ -47,6 +48,12 @@ public class Utils {
 			}
 		} while (doubleInput == null);
 		return doubleInput;
+	}
+
+	public Date getDate() {
+		Date utilDate = new java.util.Date();
+	    Date order_date = new java.sql.Date(utilDate.getTime());
+		return order_date;
 	}
 
 }

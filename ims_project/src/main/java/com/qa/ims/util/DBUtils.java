@@ -1,6 +1,5 @@
 package com.qa.ims.util;
 
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.Connection;
@@ -26,6 +25,7 @@ public class DBUtils {
 	private DBUtils(String username, String password) {
 		this.DB_USER = username;
 		this.DB_PASS = password;
+
 		init();
 	}
 	
@@ -62,9 +62,7 @@ public class DBUtils {
 		}
 		return modified;
 	}
-	
-	
-	
+
 	public Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 	}
@@ -72,10 +70,9 @@ public class DBUtils {
 	public static DBUtils connect(String username, String password) {
 	
 		instance = new DBUtils(username, password);
-		
 		return instance;
 	}
-	
+
 
 	public static DBUtils getInstance() {
 		if (instance == null) {

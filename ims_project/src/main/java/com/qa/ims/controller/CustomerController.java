@@ -20,9 +20,10 @@ public class CustomerController implements CrudController<Customer>  {
 	
 	Scanner scanner = new Scanner(System.in);
 	
-	public CustomerController(CustomerDAO customerDAO) {
+	public CustomerController(CustomerDAO customerDAO, Utils util) {
 		super();
 		this.custDAO = customerDAO;
+		this.util = util;
 	}
 	
 	/**
@@ -59,9 +60,12 @@ public class CustomerController implements CrudController<Customer>  {
 		List<Customer> customers = custDAO.readAll();
 		for (Customer customer : customers) {
 				LOGGER.info(customer.toString());
+
 		}
 		return customers;	
-		}
+
+		
+	}
 		
 	/**
 	 * Updates an existing customer by taking in user input
@@ -83,9 +87,8 @@ public class CustomerController implements CrudController<Customer>  {
 		Long phone = util.getLong();
 		f_name = f_name.toLowerCase();
 		l_name = l_name.toLowerCase();
-		custDAO.update(new Customer(f_name, l_name, email, phone));
+		return custDAO.update(new Customer(f_name, l_name, email, phone));
 	
-		return null;
 	}
 	
 	/**
@@ -97,23 +100,13 @@ public class CustomerController implements CrudController<Customer>  {
 	@Override
 	public Customer delete() {
 		//user can select either to delete a customer from system with either their id or name
-				LOGGER.info("Do you watch to delete by Customer ID or Customer Name?");
-				LOGGER.info("  1) ID \n  2) Name");
-				String option = util.getString().toLowerCase();
-				switch (option) {
-					case "id":
-						LOGGER.info("    Select by ID:");
-						long id = util.getLong();
-						custDAO.deleteById(id);
-						break;
-					case "name":
-						LOGGER.info("    Select by First name:");
-						String f_name = util.getString();
-						LOGGER.info("    Select by Last name:");
-						String l_name = util.getString();
-						custDAO.deleteByName(f_name, l_name);
-						break;
-				}
+				readAll();
+				
+				LOGGER.info("    Select by ID:");
+				Long id = util.getLong();
+				custDAO.deleteById(id);
+			
+			
 		return null;
 	}
 

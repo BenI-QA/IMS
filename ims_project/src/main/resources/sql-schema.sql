@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS Order_
 	CONSTRAINT PK_Order PRIMARY KEY (order_id), 
 	CONSTRAINT FK_customer_id FOREIGN KEY (customer_id) REFERENCES Customer(customer_id));
 
-CREATE TABLE IF NOT EXISTS Item_Order (order_id int NOT NULL , 
+CREATE TABLE IF NOT EXISTS Item_Order (order_id int NOT NULL AUTO_INCREMENT, 
 	item_id int NOT NULL, quantity int,
 	CONSTRAINT PK_ItemOrder PRIMARY KEY (order_id, item_id),
 	CONSTRAINT FK_ItemOrder_Item FOREIGN KEY (item_id) REFERENCES Item(item_id),
