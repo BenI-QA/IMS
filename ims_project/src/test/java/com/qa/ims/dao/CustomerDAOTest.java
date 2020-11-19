@@ -31,18 +31,17 @@ public class CustomerDAOTest {
 
 	@Test
 	public void testCreate() {
-		final Long id = 3L;
 		final String f_name ="jake";
 		final String l_name = "mac";
 		final String email = "jm@gmail.com";
 		final Long phone = 0232323L ;
-		final Customer created = new Customer(id, f_name, l_name, email, phone);
+		final Customer created = new Customer(f_name, l_name, email, phone);
 		assertEquals(created, custDAO.create(created));
 	}
 
 	@Test
 	public void testReadAll() {
-		final Long id = 1L;
+		final Long id = 2L;
 		final String f_name ="jake";
 		final String l_name = "mac";
 		final String email = "jm@gmail.com";
@@ -54,20 +53,21 @@ public class CustomerDAOTest {
 
 	@Test
 	public void testReadLatest() {
+		final Long id = 2L;
 		final String f_name ="jake";
 		final String l_name = "mac";
 		final String email = "jm@gmail.com";
 		final Long phone = 0232323L ;
-		assertEquals(new Customer(f_name, l_name, email, phone), custDAO.readLatest());
+		assertEquals(new Customer(id,f_name, l_name, email, phone), custDAO.readLatest());
 	}
 
 	@Test
 	public void testUpdate() {
-		final Long id = 1L;
+		final Long id = 2L;
 		final String f_name ="jake";
 		final String l_name = "mac";
-		final String email = "jm@gmail.com";
-		final Long phone = 0232323L ;
+		final String email = "changed@gmail.com";
+		final Long phone = 1234L ;
 		final Customer updated = new Customer(id, f_name, l_name, email, phone);
 		assertEquals(updated, custDAO.update(updated));
 
@@ -101,12 +101,6 @@ public class CustomerDAOTest {
 		assertEquals(null, custDAO.update(updated));
 	}
 	
-	@Test
-	public void deleteException() {
-		final long id = 1L;
-		assertEquals(null, custDAO.deleteById(id));
-	}
-
 
 }
 

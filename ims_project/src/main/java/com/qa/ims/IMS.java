@@ -19,7 +19,7 @@ public class IMS {
 	
 	public static final Logger LOGGER = LogManager.getLogger();
 	DBUtils DBInstance;
-	Scanner scanner = new Scanner(System.in);
+	
 	private final CustomerController customers;
 	private final ItemController items;
 	private final OrderController orders;
@@ -37,16 +37,16 @@ public class IMS {
 
 	public void systemStart() {
 		LOGGER.info("What is your username");
-		String username = scanner.nextLine();
+		String username = util.getString();
 		LOGGER.info("What is your password \n");
-		String password = scanner.nextLine();
+		String password = util.getString();
 
 		DBInstance = DBUtils.connect(username, password);
 		
 		LOGGER.info(" Select an option below:");
 		LOGGER.info("  1) Customer \n  2) Order \n  3) Item \n  4) Exit \n   ");
 		
-		String select = scanner.nextLine().toLowerCase();
+		String select = util.getString().toLowerCase();
 			CrudController<?> active = null;
 			switch (select) {
 			case "customer":
@@ -69,7 +69,7 @@ public class IMS {
 				LOGGER.info("What would you like to do with " + select.toLowerCase() + ":");
 				LOGGER.info("  1) Create \n  2) Read \n  3) Update \n  4) Delete \n  5) Exit \n ");
 				
-				String option = scanner.nextLine().toLowerCase();
+				String option = util.getString().toLowerCase();
 				doAction(active, option, check);
 			}
 		}
