@@ -30,6 +30,7 @@ import java.util.Date;
 
 public class OrderDAOTest {
 	
+	private Utils util;
 	private final OrderDAO orderDAO = new OrderDAO();
 	
 	@BeforeClass
@@ -39,15 +40,14 @@ public class OrderDAOTest {
 
 	@Before
 	public void setup() throws SQLException {
-		DBUtils.getInstance().getConnection();
+		DBUtils.getInstance().init("src/main/resources/sql-schema.sql", "src/main/resources/sql-data.sql");;
 	}
 	
 	
 	@Test
 	public void testCreate() {
 		final long id = 2L;
-		final Date utilDate = new java.util.Date();
-	    final Date order_date = new java.sql.Date(utilDate.getTime());
+		final Date order_date = util.getDate();
 		final long item_id = 1L;
 		final long quantity = 5L;
 		final long cust_id = 2L;
@@ -118,24 +118,25 @@ public class OrderDAOTest {
 	}
 	
 	@Test
-	public void testConvert() {
-		final long id = 2L;
-		final long cust_id = 2L;
-		final String item_name ="adidas";
-		final double price = 13.00;
-		final long quantity= 5;
-		final Order convert = new Order(id, cust_id, item_name, price, quantity);
-		assertEquals(convert, orderDAO.convert(convert));
+	public void createException() {
+		Item item = new Item("nikey", 12, 13.00, 5L);
+		assertEquals(null, orderDAO.create(item));
+	}
+	
+	@Test
+	public void readException() {
+		assertEquals(null, orderDAO.readAll());
 	}
 	@Test
-	public void testConvertid() {
-		final long id = 2L;
-		final long cust_id = 2L;
-		final Date utilDate = new java.util.Date();
-	    final Date order_date = new java.sql.Date(utilDate.getTime());
-		final double totalPrice = 30.00;
-		final Order convert = new Order(id, order_date, totalPrice, cust_id);
-		assertEquals(convert, orderDAO.convert(convert));
+	public void readLatestException() {
+		assertEquals(null, orderDAO.readLatest());
+	}
+	
+
+	@Test
+	public void updateException() {
+		Order updated = new Order("nikey", 12, 13.00, 5L);
+		assertEquals(null, orderDAO.update(updated));
 	}
 }
 

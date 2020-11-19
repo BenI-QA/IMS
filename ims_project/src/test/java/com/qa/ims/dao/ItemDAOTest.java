@@ -38,9 +38,8 @@ public class ItemDAOTest {
 
 	@Before
 	public void setup() throws SQLException {
-		DBUtils.getInstance().getConnection();
+		DBUtils.getInstance().init("src/main/resources/sql-schema.sql", "src/main/resources/sql-data.sql");;
 	}
-	
 	
 	@Test
 	public void testCreate() {
@@ -91,26 +90,35 @@ public class ItemDAOTest {
 	
 	@Test
 	public void testDelete() {
-		assertEquals(1L, itemDAO.deleteById(1L));
+		assertEquals(null, itemDAO.deleteById(1L));
 	}
 	
 	@Test
-	public void testConvert() {
-		final String item_name ="nikey";
-		final long size = 12;
-		final double price = 13.00;
-		final long stock = 5;
-		final ResultSet convert = new Item(item_name,size,price,stock);
-		assertEquals(convert, itemDAO.convert(convert));
+	public void createException() {
+		Item item = new Item("nikey", 12, 13.00, 5L);
+		assertEquals(null, itemDAO.create(item));
 	}
+	
+	@Test
+	public void readException() {
+		assertEquals(null, itemDAO.readAll());
+	}
+	@Test
+	public void readLatestException() {
+		assertEquals(null, itemDAO.readLatest());
+	}
+	
+
+	@Test
+	public void updateException() {
+		Item updated = new Item("nikey", 12, 13.00, 5L);
+		assertEquals(null, itemDAO.update(updated));
+	}
+	
 }
 
 	/**
-	@Test
-	public void createException() {
-		Customer customer = new Customer("Piers", "Barber","email",2321);
-		assertEquals(null, custDAO.create(customer));
-	}
+	
 	
 	@Test
 	

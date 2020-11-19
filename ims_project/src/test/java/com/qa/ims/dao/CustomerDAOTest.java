@@ -2,8 +2,8 @@ package com.qa.ims.dao;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.qa.ims.domain.Customer;
-import com.qa.ims.util.Utils;
 import com.qa.ims.util.DBUtils;
 
 public class CustomerDAOTest {
@@ -27,7 +26,7 @@ public class CustomerDAOTest {
 
 	@Before
 	public void setup() throws SQLException {
-		DBUtils.getInstance().getConnection();
+		DBUtils.getInstance().init("src/main/resources/sql-schema.sql", "src/main/resources/sql-data.sql");;
 	}
 
 	@Test
@@ -63,17 +62,6 @@ public class CustomerDAOTest {
 	}
 
 	@Test
-	public void testRead() {
-		final long ID = 1L;
-		final String f_name ="jake";
-		final String l_name = "mac";
-		final String email = "jm@gmail.com";
-		final Long phone = 0232323L ;
-		
-		assertEquals(new Customer(f_name, l_name, email, phone), custDAO.read(ID));
-	}
-
-	@Test
 	public void testUpdate() {
 		final Long id = 1L;
 		final String f_name ="jake";
@@ -88,27 +76,42 @@ public class CustomerDAOTest {
 	
 	@Test
 	public void testDelete() {
-		assertEquals(1L, custDAO.deleteById(1L));
+		final Long id = 1L;
+		assertNull(null, custDAO.deleteById(id));
 	}
 	
 	@Test
-	public void testConvert() {
-		final long id = 1L;
-		final String f_name ="jake";
-		final String l_name = "mac";
-		final String email = "jm@gmail.com";
-		final Long phone = 0232323L ;
-		final ResultSet convert = new Customer(id, f_name, l_name, email, phone);
-		assertEquals(convert, custDAO.convert(convert));
+	public void createException() {
+		Customer customer = new Customer("Piers", "Barber","email",2321L);
+		assertEquals(null, custDAO.create(customer));
 	}
+	@Test
+	public void readException() {
+		assertEquals(null, custDAO.readAll());
+	}
+	@Test
+	public void readLatestException() {
+		assertEquals(null, custDAO.readLatest());
+	}
+	
+
+	@Test
+	public void updateException() {
+		Customer updated = new Customer("Piers", "Barber","email",2321L);
+		assertEquals(null, custDAO.update(updated));
+	}
+	
+	@Test
+	public void deleteException() {
+		final long id = 1L;
+		assertEquals(null, custDAO.deleteById(id));
+	}
+
+
 }
 
 	/**
-	@Test
-	public void createException() {
-		Customer customer = new Customer("Piers", "Barber","email",2321);
-		assertEquals(null, custDAO.create(customer));
-	}
+	
 	
 	@Test
 	

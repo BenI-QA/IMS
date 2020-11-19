@@ -27,14 +27,10 @@ public class DBUtils {
 	private DBUtils(String username, String password) {
 		this.DB_USER = username;
 		this.DB_PASS = password;
-		try{
-			getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	
 		//init();
 	}
-	/**
+	
 	public int init() {
 		return this.init("src/main/resources/sql-schema.sql", "src/main/resources/sql-data.sql");
 	}
@@ -68,21 +64,16 @@ public class DBUtils {
 		}
 		return modified;
 	}
-	
-	**/
+			
+	public Connection getConnection() throws SQLException {
+			return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+	}
 	public static DBUtils connect(String username, String password) {
 		if(instance == null) {
 			instance = new DBUtils(username, password);
 		}
 		return instance;
 	}
-	
-	
-	
-	public Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-	}
-
 	
 
 	public static DBUtils getInstance() {

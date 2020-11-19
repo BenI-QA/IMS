@@ -104,7 +104,7 @@ public class CustomerDAO {
 	}
 	
 	
-	public void deleteById(long id) {
+	public Customer deleteById(long id) {
 		String query;
 		query = "DELETE FROM Customer WHERE customer_id = " + id;
 		try (Connection connection = DBUtils.getInstance().getConnection();
@@ -113,20 +113,8 @@ public class CustomerDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
-	public void deleteByName(String firstname, String lastname) {
-		String query;
-		query = "DELETE FROM Customer WHERE first_name = '" + firstname + "' AND last_name = '" + lastname +"';";
-		try (Connection connection = DBUtils.getInstance().getConnection();
-				Statement statement = connection.createStatement();){
-				statement.executeUpdate(query);
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	
-	}
-	
 
 	public static Customer convert(ResultSet result) throws SQLException {
 		Long id = result.getLong("customer_id");
