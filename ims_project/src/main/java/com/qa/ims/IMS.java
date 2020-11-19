@@ -62,35 +62,35 @@ public class IMS {
 			default:
 				break;
 			}
-		boolean check=true;
-		while(check) {
-			LOGGER.info("What would you like to do with " + select.toLowerCase() + ":");
-			LOGGER.info("  1) Create \n  2) Read \n  3) Update \n  4) Delete \n  5) Exit \n ");
-			
-			String option = scanner.nextLine().toLowerCase();
-			doAction(active, option, check);
+			boolean check=true;
+			while(check) {
+				LOGGER.info("What would you like to do with " + select.toLowerCase() + ":");
+				LOGGER.info("  1) Create \n  2) Read \n  3) Update \n  4) Delete \n  5) Exit \n ");
+				
+				String option = scanner.nextLine().toLowerCase();
+				doAction(active, option, check);
+			}
 		}
-	}
 
-	public void doAction(CrudController<?> crudController, String option, boolean check) {
-		switch (option) {
-		case "create":
-			crudController.create();
-			break;
-		case "read":
-			crudController.readAll();
-			break;
-		case "update":
-			crudController.update();
-			break;
-		case "delete":
-			crudController.delete();
-			break;
-		case "exit":
-			systemStart();
-			break;
+		public void doAction(CrudController<?> crudController, String option, boolean check) {
+			switch (option) {
+			case "create":
+				crudController.create();
+				break;
+			case "read":
+				crudController.readAll();
+				break;
+			case "update":
+				crudController.update();
+				break;
+			case "delete":
+				crudController.delete();
+				break;
+			case "exit":
+				systemStart();
+				break;
 
+			}
 		}
-	}
 
 }

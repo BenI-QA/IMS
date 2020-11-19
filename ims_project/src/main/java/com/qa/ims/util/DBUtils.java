@@ -18,7 +18,7 @@ public class DBUtils {
 	private static final Logger LOGGER = LogManager.getLogger();
 	
 	//connecting to Google Cloud SQL database
-	private static final String DB_URL = "jdbc:mysql://35.234.131.95:3306/IMS";
+	private static final String DB_URL = "jdbc:mysql://localhost:3306/IMS";
 	private String DB_USER; 
 	private String DB_PASS;
 	private static DBUtils instance = null;
