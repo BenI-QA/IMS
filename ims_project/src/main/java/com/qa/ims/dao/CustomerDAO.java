@@ -82,25 +82,6 @@ public class CustomerDAO {
 		return new ArrayList<>();
 		
 	}
-	//use by customer id
-		public List<Customer> read(long id) {
-			//selects a single customers order
-			String query = "SELECT * FROM Customer WHERE customer_id = "+id+";";
-			try(Connection connection = DBUtils.getInstance().getConnection();
-					Statement statement = connection.createStatement();
-					ResultSet resultSet = statement.executeQuery(query);) {
-				List<Customer> customer = new ArrayList<>();
-				while (resultSet.next()) {
-					customer.add(convert(resultSet));
-				}
-				return customer;
-			} catch (SQLException e) {
-				LOGGER.debug(e);
-				LOGGER.error(e.getMessage());
-			}
-			return new ArrayList<>();
-			
-		}
 
 
 	public Customer update(Customer cust) {

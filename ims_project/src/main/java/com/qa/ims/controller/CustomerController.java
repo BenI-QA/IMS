@@ -55,32 +55,16 @@ public class CustomerController implements CrudController<Customer>  {
 	
 	@Override
 	public List<Customer> readAll() {
-		LOGGER.info("View all or View an individual Customer data?");
-		LOGGER.info("  1) All \n  2) Single \n  ");
-		String selection = util.getString();
-		if(selection == "all") {
-			LOGGER.info("List Of Customers: \n");
-			List<Customer> customers = custDAO.readAll();
-			for (Customer customer : customers) {
-				LOGGER.info(customer.toString());
-			}
-			return customers;	
-			}
 		
-		else {
-			//obtains an individual item information based on its id
-			LOGGER.info("Select Customer ID: \n");
-			long id = scanner.nextInt();
-		
-			LOGGER.info("Customer Information: \n");
-			List<Customer> singleCust= custDAO.read(id);
-			for (Customer customer : singleCust) {
-				LOGGER.info(customer.toString());
-			}
-			return singleCust;
-		
+		LOGGER.info("List Of Customers: \n");
+		List<Customer> customers = custDAO.readAll();
+		for (Customer customer : customers) {
+			LOGGER.info(customer.toString());
 		}
+		return customers;	
 	}
+		
+	
 	
 	/**
 	 * Updates an existing customer by taking in user input

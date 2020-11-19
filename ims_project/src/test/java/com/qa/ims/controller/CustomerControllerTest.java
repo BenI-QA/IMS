@@ -2,6 +2,12 @@ package com.qa.ims.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -39,13 +45,13 @@ public class CustomerControllerTest {
 
 		assertEquals(customer, custCon.create());
 
-		//verify(utils, times(3)).getString();
-		//verify(utils, times(1)).getLong();
-		//verify(custDAO, times(1)).create(customer);
+		verify(utils, times(3)).getString();
+		verify(utils, times(1)).getLong();
+		verify(custDAO, times(1)).create(customer);
 			
 	}
-}
-/**
+
+	@Test
 	public void testRead() {
 		Long id = 2L;
 		String f_name ="jake";
@@ -61,6 +67,8 @@ public class CustomerControllerTest {
 
 		verify(custDAO,times(1)).readAll();
 	}
+	
+	@Test
 	public void testUpdate() {
 		Long id = 2L;
 		String f_name ="jake";
@@ -77,9 +85,10 @@ public class CustomerControllerTest {
 	
 		verify(this.utils,times(2)).getString();
 		verify(this.utils, times(1)).getLong();
-		verify(this.custDAO, Mockito.times(1)).update(updated);
+		verify(this.custDAO, times(1)).update(updated);
 			
 	}
+	@Test
 	public void testDelete() {
 		final long id = 1L;
 		when(utils.getLong()).thenReturn(id);
@@ -91,4 +100,4 @@ public class CustomerControllerTest {
 		}
 	
 }
-**/
+
