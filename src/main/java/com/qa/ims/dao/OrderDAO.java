@@ -1,137 +1,234 @@
 package com.qa.ims.dao;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Scanner;
-import java.util.Date;
+import java.sql.Statement;
 
-import com.qa.ims.connection.db_Connection;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import com.qa.ims.domain.Customer;
+import com.qa.ims.domain.Item;
 import com.qa.ims.domain.Order;
+import com.qa.ims.util.Utils;
+import com.qa.ims.util.DBUtils;
 
 public class OrderDAO {
-	db_Connection DBInstance;
+	
+	private static Logger LOGGER = LogManager.getLogger();
+	DBUtils DBInstance;
 	ResultSet res  = null;
-	Scanner scanner = new Scanner(System.in);
+	Utils util = new Utils();
+	
 	//inputting login details to database
-	public OrderDAO(){
-		String username = "root"; //scanner.nextLine();
-		String password = "Passwordunknown123!"; //scanner.nextLine();
-		DBInstance = db_Connection.connect(username , password); //username, password
-		
-	}
 	
-	public void create(Order order) {
-		String m_query, sec_query, stock_query;
+	public Order create(Order order) {
+		String m_query, sec_query;// stock_query;
 		Date order_date = order.getOrder_date();
-		int item_id = order.getItem_id();
-		int quantity = order.getQuantity();
-		int cust_id = order.getCust_id();
-	
-		sec_query = "INSERT INTO Order_(order_date, customer_id) VALUES('"+order_date+"',"+cust_id+");";
-		m_query = "INSERT INTO item_order(item_id, quantity) VALUES("+item_id+"," +quantity+");";
-		stock_query = "UPDATE item set stock = stock -"+ quantity+";";
+		long item_id = order.getItem_id();
+		long quantity = order.getQuantity();
+		long cust_id = order.getCust_id();
 		
-		try {
-			DBInstance.exUpdate(sec_query);
-			DBInstance.exUpdate(m_query);
-			//DBInstance.exUpdate(stock_query);
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
+		m_query = "INSERT INTO Order_(order_date, customer_id) VALUES('"+order_date+"',"+cust_id+");";
+		sec_query = "INSERT INTO Item_Order(item_id, quantity) VALUES("+item_id+"," +quantity+");";
+		
+		
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();) {
+			statement.executeUpdate(m_query);
+			statement.executeUpdate(sec_query);
+			return readLatest();
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
 		}
-		
-		//sec_query = "UPDATE Item SET Stock ="+ stock - quantity WHERE item_id ="+item_id+"`	
-				//add item to order
+		return null;
 		
 	}
 	
+
+	public Order readLatest() {
+		String query;
+		query = "SELECT * FROM order ORDER BY order_ DESC LIMIT 1;";
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery(query);){
+				
+			resultSet.next();
+				
+			return convert(resultSet);
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
+	
+	
+	//selects all orders of all customers
+	public List<Order> readAll() {
+	
+		String query = "SELECT Order_.order_id, Order_.customer_id, Order_.order_date, SUM(Item.price*Item_Order.quantity) AS Total_Price"
+				+ " FROM Item_Order"
+				+ " INNER JOIN Item ON Item_Order.item_id=Item.item_id" 
+				+ " INNER JOIN Order_ ON Item_Order.order_id = Order_.order_id"
+				+ " GROUP BY order_id";
+		
+			try(Connection connection = DBUtils.getInstance().getConnection();
+					Statement statement = connection.createStatement();
+					ResultSet resultSet = statement.executeQuery(query);
+				) {
+				List<Order> orders = new ArrayList<>();
+				while (resultSet.next()) {
+				
+					orders.add(convert(resultSet));
+					
+				
+				}
+				return orders;
+			} catch (SQLException e) {
+				LOGGER.debug(e);
+				LOGGER.error(e.getMessage());
+			}
+			return new ArrayList<>();
+			
+	}
 	
 	//use by customer id
-	public ResultSet read(int id) {
-		//selects a single customers order
-		String query = "SELECT item_order.order_id, order_.customer_id,order_.order_date,"
-				+ "item.shoe_name, item.price, quantity"
-				+ "FROM item_order"
-				+ "INNER JOIN Item ON item_order.item_id=Item.item_id" 
-				+ "INNER JOIN Order_ ON item_order.order_id = Order_.order_id;"
-				+ "GROUP BY order_id";
-		try{
+		public List<Order> read(long id) {
+			//selects a single customers order
+			String query = "SELECT Item_Order.order_id, Order_.customer_id,"
+					+ " Item.item_name, Item.price, quantity"
+					+ " FROM Item_Order"
+					+ " INNER JOIN Item ON Item_Order.item_id=Item.item_id" 
+					+ " INNER JOIN Order_ ON Item_Order.order_id = Order_.order_id"
+					+ " WHERE customer_id = "+ id ;
 			
-			res = DBInstance.exQuery(query);
+			try(Connection connection = DBUtils.getInstance().getConnection();
+					Statement statement = connection.createStatement();
+					ResultSet resultSet = statement.executeQuery(query);) {
+				List<Order> orders = new ArrayList<>();
+				while (resultSet.next()) {
+					orders.add(convertid(resultSet));
+				}
+				return orders;
+			} catch (SQLException e) {
+				LOGGER.debug(e);
+				LOGGER.error(e.getMessage());
+			}
+			return new ArrayList<>();
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
-		return res;
+
+	
+	
+	public void updateEdit(String select, long o_id, long i_id, long quant) {
+		String edit;
+		//editing specific order
+		
+		edit = "UPDATE Item_Order SET quantity = "+quant + " WHERE order_id ="+o_id+" AND item_id = "+ i_id+";";
+		
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();){
+			
+				statement.executeUpdate(edit);
+				
+		}
+		catch (SQLException e) {
+					e.printStackTrace();
+				}
+		
+		LOGGER.info("Your order has been updated \n");
+	}
+	
+	public List<Order> updateAdd(long o_id, long i_id, long quant) {
+		String  addto, readback;
+		
+		//Adding item to current order
+		addto = "INSERT Item_Order(order_id, item_id, quantity) VALUES(" + o_id+"," + i_id + "," +quant+");";
+		readback = "SELECT Item_Order.order_id, Item_Order.item_id, Item.item_name"
+				+ " FROM Item_Order"
+				+ " INNER JOIN Item ON Item_Order.item_id=Item.item_id" 
+				+ " WHERE Item_Order.order_id ="+o_id+" AND Item.item_id = "+i_id;
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery(readback);){
+				//adding a item to a order
+				statement.executeUpdate(addto);
+			
+				List<Order> orders = new ArrayList<>();
+				while (resultSet.next()) {
+					orders.add(convertid(resultSet));
+				}
+				return orders;
+					
+				}
+		catch (SQLException e) {
+					e.printStackTrace();
+				}
+		LOGGER.info("Your change has been added to your order \n");
+		return new ArrayList<>();
+		
 		
 	}
 	
-	public ResultSet readAll() {
-		//selects all orders of all customers
-		String query = "SELECT item_order.order_id, order_.customer_id, order_.order_date, (Item.price*item_order.quantity) AS Total_Price"
-				+ " FROM item_order"
-				+ " INNER JOIN Item ON item_order.item_id=Item.item_id" 
-				+ " INNER JOIN Order_ ON item_order.order_id = Order_.order_id;";
-		
-		try{
-			
-			res = DBInstance.exQuery(query);
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return res;
-		
-	}
 	
-	
-	public void update(int o_id, int i_id, int quant) {
-		String query;
-		//Adding item to order table
-		query = "INSERT item_order(order_id, item_id, quantity) VALUES(" + o_id+"," + i_id + "," +quant+");";
-		
-		//deleting item from order_table
-		//dquery = "DELETE FROM item_order WHERE order_id ="+o_id+" AND item_id="+ i_id+";";
-		try {
-			DBInstance.exUpdate(query);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		//adding a item to a order
-		//change this to customer name when finding customer order
-	//	System.out.println("Order Details for:" + cust_id + "have been Updated!");
-	}
-	//remove item from order
-	
-	
-	public void deleteById(int id) {
+	public void deleteById(long id) {
 		String query, sec_query;
 		//delete complete order
-		query = "DELETE FROM Order_ WHERE order_id = " + id;
-		sec_query = "DELETE FROM item_order WHERE order_id = " + id;
+		query = "DELETE FROM Order_ WHERE order_id = " + id +";";
+		sec_query = "DELETE FROM Item_Order WHERE order_id = " + id + ";";
 
-		try {
-			DBInstance.exUpdate(query);
-			DBInstance.exUpdate(sec_query);
+		
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();){
+				statement.executeUpdate(sec_query);	
+				statement.executeUpdate(query);
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+	}
+	
+	public void deleteItem(long order_id, long item_id) {
+		String query;
+		query = "DELETE FROM Item_Order WHERE order_id = "+ order_id+" AND item_id= " +item_id+ ";";
+		
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();){
+				statement.executeUpdate(query);
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public void deleteItem(int order_id, int item_id) {
-		String remov_item;
-		remov_item = "DELETE FROM item_order WHERE order_id = " + order_id+ "AND item_id=" + item_id +";";
-		
-		try {
-			DBInstance.exUpdate(remov_item);
-		
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	
 	}
+	
+	public static Order convert(ResultSet result ) throws SQLException {
+		Date utilDate = new java.util.Date();
+	    Date order_date = new java.sql.Date(utilDate.getTime());
+		
+		Long id = result.getLong("order_id");
+		Long cust_id =result.getLong("customer_id");
+	
+		double totalPrice = result.getDouble("Total_Price");
+	
+		return new Order(id, order_date, totalPrice, cust_id );
+	}
+	
+	public static Order convertid(ResultSet result) throws SQLException {
 
-	
-	
+		long id = result.getInt("order_id");
+		long cust_id = result.getInt("customer_id");
+		String item_name = result.getString("item_name");
+		double price = result.getInt("price");
+		long quantity = result.getInt("quantity");
+		return new Order(id, cust_id, item_name, price, quantity);
+	}	
 }
 

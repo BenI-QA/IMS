@@ -1,10 +1,12 @@
 package com.qa.ims.controller;
 
-public interface CrudController<T> {
+import java.util.List;
 
-		T create();
+
+public interface CrudController<T> {
+		List<T> readAll();
 		
-		T read();
+		T create();
 		
 		T update();
 

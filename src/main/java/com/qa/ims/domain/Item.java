@@ -1,39 +1,36 @@
 package com.qa.ims.domain;
 
+
+
 public class Item {
 	
-	private int id = 0;
+	private Long id;
 	private String item_name;
-	
-
-	private int size;
-	private String brand;
-	private int price;
-	private int stock;
+	private double size;
+	private double price;
+	private Long stock;
 	
 	
-	public Item(int iD, String item_name, int size, String brand, int price, int stock) {
+	public Item(Long iD, String item_name, double size, double price, Long stock) {
 		id = iD;
 		this.item_name = item_name;
 		this.size = size;
-		this.brand = brand;
 		this.price = price;
 		this.stock = stock;
 	}
-	public Item(String item_name, int size, String brand, int price, int stock) {
+	public Item(String item_name, double size, double price, Long stock) {
 		this.item_name = item_name;
 		this.size = size;
-		this.brand = brand;
 		this.price = price;
 		this.stock = stock;
 	}
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -48,39 +45,62 @@ public class Item {
 	}
 
 
-	public int getSize() {
+	public double getSize() {
 		return size;
 	}
-	public void setSize(int size) {
+	public void setSize(double size) {
 		this.size = size;
 	}
-	public String getBrand() {
-		return brand;
-	}
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
 
 
-
-	public int getPrice() {
+	public double getPrice() {
+	
 		return price;
 	}
 
-
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
 
-	public int getStock() {
+	public Long getStock() {
 		return stock;
 	}
 
 
-	public void setStock(int stock) {
+	public void setStock(Long stock) {
 		this.stock = stock;
 	}
+	@Override
+	public String toString() {
+		return "id:" + id + " Shoe Name:" + item_name + " Size:" + size + " Price: $"+price+ " Stock:"+stock +" \n" ;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Item other = (Item) obj;
+		if (id != other.id)
+			return false;
+		if (item_name == null) {
+			if (other.item_name != null)
+				return false;
+		} else if (!item_name.equals(other.item_name))
+			return false;
+		if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
+			return false;
+		if (size != other.size)
+			return false;
+		if (stock != other.stock)
+			return false;
+		return true;
+	}
 
+	
 
 }

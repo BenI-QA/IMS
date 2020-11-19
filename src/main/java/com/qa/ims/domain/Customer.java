@@ -1,19 +1,14 @@
 package com.qa.ims.domain;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 
 public class Customer {
-	private int ID;
+	private Long ID;
 	private String first_name;
 	private String last_name;
 	private String email;
-	private int phone;
+	private Long phone;
 	
-	
-	
-	
-	
-	public Customer(int iD, String f_name, String l_name, String email, int phone) {
+	public Customer(Long iD, String f_name, String l_name, String email, Long phone) {
 		this.ID = iD;
 		this.first_name = f_name;
 		this.last_name= l_name;
@@ -21,32 +16,18 @@ public class Customer {
 		this.phone = phone;
 	}
 	
-	public Customer(String f_name, String l_name, String email, int phone) {
+	public Customer(String f_name, String l_name, String email, Long phone) {
 		this.first_name = f_name;
 		this.last_name= l_name;
 		this.email = email;
 		this.phone = phone;
 	}
 	
-	public static Customer convert(ResultSet result) throws SQLException {
-		if(result.next()) {
-			int localID = result.getInt("customer_id");
-			String localFname = result.getString("first_name");
-			String localLname = result.getString("last_name");
-			String localEmail = result.getString("email");
-			int localPhone = result.getInt("phone_num");
-			return new Customer(localID, localFname, localLname, localEmail, localPhone);
-			}
-		else {
-			return null;
-		}
 	
-	}
-	
-	public int getID() {
+	public long getID() {
 		return ID;
 	}
-	public void setID(int iD) {
+	public void setID(Long iD) {
 		ID = iD;
 	}
 	public String getFirst_name() {
@@ -67,16 +48,47 @@ public class Customer {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public int getPhone() {
+	public Long getPhone() {
 		return phone;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(Long phone) {
 		this.phone = phone;
 	}
 	
 	@Override
 	public String toString() {
 		return "id:" + ID + " first name:" + first_name + " surname:" + last_name + " Email:" + email + " Phone No.:"+phone ;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Customer other = (Customer) obj;
+		if (ID != other.ID)
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (first_name == null) {
+			if (other.first_name != null)
+				return false;
+		} else if (!first_name.equals(other.first_name))
+			return false;
+		if (last_name == null) {
+			if (other.last_name != null)
+				return false;
+		} else if (!last_name.equals(other.last_name))
+			return false;
+		if (phone != other.phone)
+			return false;
+		return true;
 	}
 
 }
