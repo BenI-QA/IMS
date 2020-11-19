@@ -1,4 +1,4 @@
-package com.qa.ims.controllers;
+package com.qa.ims.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;

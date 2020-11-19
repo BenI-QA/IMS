@@ -25,9 +25,10 @@ public class OrderController implements CrudController<Order>{
 	Utils util = new Utils();
 	Scanner scanner = new Scanner(System.in);
 		
-	public OrderController(OrderDAO orderDAO) {
+	public OrderController(OrderDAO orderDAO, Utils util) {
 		super();
 		this.orderDAO = orderDAO;
+		this.util = util;
 	
 	}
 	

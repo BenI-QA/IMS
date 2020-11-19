@@ -11,6 +11,7 @@ import com.qa.ims.dao.CustomerDAO;
 import com.qa.ims.dao.ItemDAO;
 import com.qa.ims.dao.OrderDAO;
 import com.qa.ims.util.DBUtils;
+import com.qa.ims.util.Utils;
 
 import java.util.Scanner;
 
@@ -22,14 +23,15 @@ public class IMS {
 	private final CustomerController customers;
 	private final ItemController items;
 	private final OrderController orders;
+	Utils util = new Utils();
 
 	public IMS() {
 		final CustomerDAO cust= new CustomerDAO();
 		final ItemDAO item= new ItemDAO();
 		final OrderDAO order= new OrderDAO();
-		this.customers = new CustomerController(cust);
-		this.items = new ItemController(item);
-		this.orders = new OrderController(order);
+		this.customers = new CustomerController(cust, util);
+		this.items = new ItemController(item, util);
+		this.orders = new OrderController(order, util);
 		
 	}
 

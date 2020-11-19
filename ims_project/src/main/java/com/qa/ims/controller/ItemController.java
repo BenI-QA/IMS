@@ -17,9 +17,10 @@ public class ItemController implements CrudController<Item>{
 	ItemDAO itemDAO = new ItemDAO();
 	Utils util = new Utils();
 	
-	public ItemController(ItemDAO itemDAO) {
+	public ItemController(ItemDAO itemDAO, Utils util) {
 		super();
 		this.itemDAO = itemDAO;
+		this.util = util;
 	}
 	
 	/**

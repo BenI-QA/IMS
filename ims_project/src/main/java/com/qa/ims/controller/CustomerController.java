@@ -20,9 +20,10 @@ public class CustomerController implements CrudController<Customer>  {
 	
 	Scanner scanner = new Scanner(System.in);
 	
-	public CustomerController(CustomerDAO customerDAO) {
+	public CustomerController(CustomerDAO customerDAO, Utils util) {
 		super();
 		this.custDAO = customerDAO;
+		this.util = util;
 	}
 	
 	/**
