@@ -1,5 +1,5 @@
-INSERT INTO Customer (first_name, last_name, email, phone_Num) VALUES ("Jack", "Barns", "jbarns@qa.com", "0286647736");
-INSERT INTO Customer (first_name, last_name, email, phone_Num) VALUES ("Ben", "Dickson", "bdickson@qa.com", "0286643436");
+INSERT INTO Customer (`first_name`, `last_name`, `email`, `phone_Num`) VALUES ("Jack", "Barns", "jbarns@qa.com", "0286647736");
+INSERT INTO Customer (`first_name`, `last_name`, `email`, `phone_Num`) VALUES ("John", "Dickson", "bdickson@qa.com", "0286643436");
 
 INSERT INTO Item (item_name, size, price, stock) VALUES ("addias", "10", 15.00, 5);
 INSERT INTO Item (item_name, size, price, stock) VALUES ("addias", "11", 15.00, 5);

@@ -93,14 +93,14 @@ public class OrderController implements CrudController<Order>{
 	@Override
 	public List<Order> readAll() {
 		LOGGER.info("View all or View an individual Order data?");
-		LOGGER.info("  1) All \n   2) Single \n");
-		long selection=  util.getLong();
+		LOGGER.info("   1) All \n   2) Single \n");
+		String selection=  util.getString().toLowerCase();
 	
-		if (selection == 1) {
+		if(selection.equals("all")) {
 				LOGGER.info("List Of Orders: \n");
 				List<Order> orders = orderDAO.readAll();
 				for (Order order : orders) {
-					LOGGER.info(order.toStringTotal()+"\n");
+					LOGGER.info(order.toStringTotal());
 				}
 				
 				return orders;
@@ -109,8 +109,6 @@ public class OrderController implements CrudController<Order>{
 				//obtains an individual item information based on its id
 				LOGGER.info("Select Customer ID");
 				long id =  util.getLong();
-			
-				
 				LOGGER.info("List Of Orders: \n");
 				List<Order> singleOrder= orderDAO.read(id);
 				for (Order order : singleOrder) {

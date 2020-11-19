@@ -1,7 +1,6 @@
 package com.qa.ims.util;
 
 
-import java.sql.ResultSet;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.Connection;
@@ -18,7 +17,7 @@ public class DBUtils {
 	private static final Logger LOGGER = LogManager.getLogger();
 	
 	//connecting to Google Cloud SQL database
-	private static final String DB_URL = "jdbc:mysql://localhost:3306/IMS";
+	private static final String DB_URL = "jdbc:mysql://35.234.131.95:3306/IMS";
 	private String DB_USER; 
 	private String DB_PASS;
 	private static DBUtils instance = null;
@@ -27,14 +26,9 @@ public class DBUtils {
 	private DBUtils(String username, String password) {
 		this.DB_USER = username;
 		this.DB_PASS = password;
-		try{
-			getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		//init();
+		init();
 	}
-	/**
+	
 	public int init() {
 		return this.init("src/main/resources/sql-schema.sql", "src/main/resources/sql-data.sql");
 	}
@@ -69,20 +63,18 @@ public class DBUtils {
 		return modified;
 	}
 	
-	**/
-	public static DBUtils connect(String username, String password) {
-		if(instance == null) {
-			instance = new DBUtils(username, password);
-		}
-		return instance;
-	}
-	
 	
 	
 	public Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 	}
-
+	
+	public static DBUtils connect(String username, String password) {
+	
+		instance = new DBUtils(username, password);
+		
+		return instance;
+	}
 	
 
 	public static DBUtils getInstance() {

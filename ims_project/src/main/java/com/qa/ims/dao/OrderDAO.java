@@ -54,7 +54,7 @@ public class OrderDAO {
 
 	public Order readLatest() {
 		String query;
-		query = "SELECT * FROM order ORDER BY order_ DESC LIMIT 1;";
+		query = "SELECT * FROM Order_ ORDER BY order_ DESC LIMIT 1;";
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery(query);){
