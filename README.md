@@ -51,8 +51,10 @@ A step by step series of examples that tell you how to get a development env run
 End with an example of getting some data out of the system or using it for a little demo
 
 ## Running the tests
+Login details, to connect to the google cloud db:
+Username: root
+ Password: Passwordunknown123!
 
-Thoughout the 
 
 ### Unit Tests 
 The JUnit tests in the program can be located in the src/test/java folder and are used in the DAO classes, this contains code which tests out the variables and minor functionality which has be set up and uses fixed data to test. This will foes not involved running object in your testing. Do not expect return code for this. The JUnit plugin will indicate green if everything is functioning normally. To run this test on your code you run the project as  a 'JUnit test'. You can check how much the code has covered through the coverage option. 
