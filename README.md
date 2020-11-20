@@ -10,6 +10,8 @@ Once you have eclipse open, go into your workspace and open "Open Project". Loca
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
+I was not able to run this as a fat .jar file for this project therefore it will be required to be run within the IDE eclipse
+
 ### Prerequisites
 
 
@@ -31,6 +33,7 @@ What things you need to install the software and how to install them
 -You need to append the path of the Java /bin folder to this "Path" variable, so to do this, we will reference the JAVA_HOME variable we created like so: %JAVA_HOME%\bin
 -When you have done this your "Path" variable make sure that there is a semi-colon before and after %JAVA_HOME%\bin.
 
+#### Maven Installtion
 
 ### Installing
 
@@ -40,21 +43,19 @@ End with an example of getting some data out of the system or using it for a lit
 
 ## Running the tests
 
-Explain how to run the automated tests for this system. Break down into which tests and what they do
+Thoughout the 
 
 ### Unit Tests 
-
-TExplain what these tests test, why and how to run them
-JUnit test run the core methods of the functionality which doesn't involve objects, mostly varibales and we expect a return to ensure the code does not break.s
-Give an example
+The JUnit tests in the program can be located in the src/test/java folder and are used in the DAO classes, this contains code which tests out the variables and minor functionality which has be set up and uses fixed data to test. This will foes not involved running object in your testing. Do not expect return code for this. The JUnit plugin will indicate green if everything is functioning normally. To run this test on your code you run the project as  a 'JUnit test'. You can check how much the code has covered through the coverage option. 
+Example:
 ```
 
+```
 ### Integration Tests 
-Explain what these tests test, why and how to run them
-Mockito tests the object functions within your code.
-Mockito
+The Integration tests in the program can be located in the src/test/java folder and are used in the Controller classes, this tests the object functions within your code. With the use of dumby data that are fixed it checks that your object functions can function normally. To run this we use the same method as JUnit where we run the .class file as a 'run junit test'.
+Example
 ```
-Give an example
+
 ```
 
 ## Deployment
