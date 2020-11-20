@@ -115,15 +115,17 @@ public class OrderController implements CrudController<Order>{
 
 	@Override
 	public Order update() {
+		LOGGER.info("\n Would you like to Add to a current order? : ADD");
+		LOGGER.info("\n Would you like to Edit your order? : EDIT \n");
+		
+		String select = util.getString().toLowerCase();
 		LOGGER.info("\n Select customer id you wish to edit \n");
 		Long id=  util.getLong();
 		List<Order> singleOrder= orderDAO.read(id);
 		for (Order order : singleOrder) {
 			LOGGER.info(order.toStringSingle());
 		}
-		LOGGER.info("\n Would you like to add to order or edit current order \n");
-		LOGGER.info("  1) Add  \n   2) Edit  \n");
-		String select=  scanner.nextLine().toLowerCase();
+		
 		LOGGER.info("\n State the order ID");
 		long o_id=  util.getLong(); 
 		List<Item> items = itemDAO.readAll();
@@ -135,19 +137,16 @@ public class OrderController implements CrudController<Order>{
 		LOGGER.info("\n State the quantity to be added");
 		long quant=  util.getLong();
 		
-		switch (select) {
-			case "add" :
-					orderDAO.updateAdd(o_id, i_id, quant);
-				break;
-			case "edit":
-					orderDAO.updateEdit(select,o_id, i_id, quant);
-				break;
-			case "back":
-				break;
-		
+		if(select.equals("edit")) {
+		orderDAO.updateEdit(o_id, i_id, quant);
+		}
+		if(select.equals("add")) {
+			orderDAO.updateAdd(o_id, i_id, quant);
+			
 		}
 		return null;
 	}
+
 	
 	/**
 	 * Deletes an existing order by the  id or item name of the order

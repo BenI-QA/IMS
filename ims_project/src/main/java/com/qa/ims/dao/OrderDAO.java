@@ -107,7 +107,7 @@ public class OrderDAO {
 	}
 	
 	//use by customer id
-		public List<Order> read(long id) {
+		public List<Order> read(Long id) {
 			//selects a single customers order
 			String query = "SELECT Item_Order.order_id, Order_.customer_id,"
 					+ " Item.item_name, Item.price, quantity"
@@ -134,26 +134,38 @@ public class OrderDAO {
 
 	
 	
-	public void updateEdit(String select, long o_id, long i_id, long quant) {
-		String edit;
+	public List<Order> updateEdit(Long o_id, Long i_id, Long quant) {
+		String edit, readbback;
 		//editing specific order
 		
-		edit = "UPDATE Item_Order SET quantity = "+quant + " WHERE order_id ="+o_id+" AND item_id = "+ i_id+";";
-		
-		try (Connection connection = DBUtils.getInstance().getConnection();
-				Statement statement = connection.createStatement();){
-			
-				statement.executeUpdate(edit);
+			edit = "UPDATE Item_Order SET quantity = "+quant + " WHERE order_id ="+o_id+" AND item_id = "+ i_id+";";
+			readback = "SELECT Item_Order.order_id, Item_Order.item_id, Item.item_name"
+				+ " FROM Item_Order"
+				+ " INNER JOIN Item ON Item_Order.item_id=Item.item_id" 
+				+ " WHERE Item_Order.order_id ="+o_id+" AND Item.item_id = "+i_id;
+			try (Connection connection = DBUtils.getInstance().getConnection();
+					Statement statement = connection.createStatement();
+							ResultSet resultSet = statement.executeQuery(readback);){
 				
-		}
-		catch (SQLException e) {
+					statement.executeUpdate(edit);
+					List<Order> orders = new ArrayList<>();
+					while (resultSet.next()) {
+						orders.add(convertid(resultSet));
+					}
+					return orders;
+			}
+			catch (SQLException e) {
 					e.printStackTrace();
 				}
 		
 		LOGGER.info("Your order has been updated \n");
-	}
+		return new ArrayList<>();
+		}
+		
+
+
 	
-	public List<Order> updateAdd(long o_id, long i_id, long quant) {
+	public List<Order> updateAdd(Long o_id, Long i_id, Long quant) {
 		String  addto, readback;
 		
 		//Adding item to current order
@@ -185,7 +197,7 @@ public class OrderDAO {
 	}
 	
 	
-	public void deleteById(long id) {
+	public Order deleteById(Long id) {
 		String query, sec_query;
 		//delete complete order
 		query = "DELETE FROM Order_ WHERE order_id = " + id +";";
@@ -200,9 +212,10 @@ public class OrderDAO {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		return null;
 	}
 	
-	public void deleteItem(long order_id, long item_id) {
+	public void deleteItem(Long order_id, Long item_id) {
 		String query;
 		query = "DELETE FROM Item_Order WHERE order_id = "+ order_id+" AND item_id= " +item_id+ ";";
 		

@@ -82,11 +82,11 @@ public class Order {
 	}
 	
 	public String toStringSingle() {
-		return "id:  " + id + " Customer id:  " + cust_id + " item name:  " + item_name + "  Price:  $" +price + " quantity:  " + quantity ;
+		return "Order ID:  " + id + " Customer ID:  " + cust_id + " Item name:  " + item_name + "  Price:  $" +price + " Quantity:  " + quantity ;
 	}
 	
 	public String toStringTotal() {
-		return "id:  " + id + " Customer id:  " + cust_id + " order date:  " + order_date + " TotalPrice:  $" + totalprice ;
+		return "Order ID:  " + id + " Customer ID:  " + cust_id + " Order Date:  " + order_date + " Total Price:  $" + totalprice ;
 	}
 
 }

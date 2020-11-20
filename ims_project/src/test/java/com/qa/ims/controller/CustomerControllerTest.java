@@ -71,6 +71,7 @@ public class CustomerControllerTest {
 	
 	@Test
 	public void testUpdate() {
+		testRead();
 		String f_name ="jake";
 		String l_name = "mac";
 		String email = "change@gmail.com";
@@ -83,19 +84,20 @@ public class CustomerControllerTest {
 
 		assertEquals(updated, this.custCon.update());
 	
-		verify(this.utils,times(2)).getString();
+		verify(this.utils,times(3)).getString();
 		verify(this.utils, times(1)).getLong();
 		verify(this.custDAO, times(1)).update(updated);
 			
 	}
 	@Test
 	public void testDelete() {
-		final long id = 1L;
-		when(utils.getLong()).thenReturn(id);
-		when(custDAO.deleteById(id)).thenReturn(null);
+		testRead();
+		Long id = 1L;
+		when(this.utils.getLong()).thenReturn(id);
+		when(this.custDAO.deleteById(id)).thenReturn(null);
 		assertNull(null,this.custDAO.deleteById(id));
-		verify(utils, times(1)).getLong();
-		verify(custDAO, times(1)).deleteById(id);
+		verify(this.utils, times(1)).getLong();
+		verify(this.custDAO, times(1)).deleteById(id);
 			
 		}
 	
