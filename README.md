@@ -1,3 +1,5 @@
+Coverage: 66%
+
 # IMS-Project
 
 This project is my own attempt of the creation of a Item Management System which include the Integration and Interation between Customer, Order and Item Tables.
@@ -34,6 +36,13 @@ What things you need to install the software and how to install them
 -When you have done this your "Path" variable make sure that there is a semi-colon before and after %JAVA_HOME%\bin.
 
 #### Maven Installtion
+Download the maven installation file which can be found here: https://maven.apache.org/download.cgi \n
+-Save the maven file into your c:\program files.
+-Once again go into your system variables and add two new variables.
+-Setting the path of Maven in environment Variables: 
+- Search the Environment Variable --> Edit the System Environment variables--> Navigate to Advanced tab --> Environment --Variables)
+- MAVEN_HOME : Click New --> Variable Name : MAVEN_HOME , Variable Value: C:\Program Files\apache-maven-3.5.2ii)
+- M2_HOME : Click New --> Variable Name : M2_HOME , --Variable Value: C:\Program Files\apache-maven-3.5.2iii) Edit the 'Path' Environment Variable --> %M2_HOME%\binTesting -whether Maven is installed: mvn -version
 
 ### Installing
 
@@ -49,14 +58,44 @@ Thoughout the
 The JUnit tests in the program can be located in the src/test/java folder and are used in the DAO classes, this contains code which tests out the variables and minor functionality which has be set up and uses fixed data to test. This will foes not involved running object in your testing. Do not expect return code for this. The JUnit plugin will indicate green if everything is functioning normally. To run this test on your code you run the project as  a 'JUnit test'. You can check how much the code has covered through the coverage option. 
 Example:
 ```
-
+@Test
+	public void testCreate() {
+		final Long id = 3L;
+		final String f_name ="jake";
+		final String l_name = "mac";
+		final String email = "jm@gmail.com";
+		final Long phone = 0232323L ;
+		final Customer created = new Customer(id,f_name, l_name, email, phone);
+		assertEquals(custDAO.readLatest(), custDAO.create(created));
+	}
 ```
+Here we are testing the variables that are entered into the customer class and check that they are of the correct type and we obtain the correct output.
+
 ### Integration Tests 
 The Integration tests in the program can be located in the src/test/java folder and are used in the Controller classes, this tests the object functions within your code. With the use of dumby data that are fixed it checks that your object functions can function normally. To run this we use the same method as JUnit where we run the .class file as a 'run junit test'.
 Example
 ```
+@Test
+	public void testCreate() {
+		final String f_name ="jake";
+		final String l_name = "mac";
+		final String email = "jm@gmail.com";
+		final Long phone = 0232323L ;
+		final Customer customer = new Customer(f_name, l_name, email, phone);
+			
+		when(utils.getString()).thenReturn(f_name, l_name, email);
+		when(utils.getLong()).thenReturn(phone);
+		when(custDAO.create(customer)).thenReturn(customer);
 
+		assertEquals(customer, custCon.create());
+
+		verify(utils, times(3)).getString();
+		verify(utils, times(1)).getLong();
+		verify(custDAO, times(1)).create(customer);
+			
+	}
 ```
+Here we are testing the the onjects used in the create() function within the customer controller.
 
 ## Deployment
 Either run the .jar file throught powershell or command line javac "file.jar" then java "file.java"
