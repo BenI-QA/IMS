@@ -105,7 +105,7 @@ public class ItemDAO {
 	}
 	
 	
-	public void deleteById(long id) {
+	public Item deleteById(long id) {
 		String query;
 		query = "DELETE FROM Item WHERE item_id = " + id;
 		try (Connection connection = DBUtils.getInstance().getConnection();
@@ -115,6 +115,7 @@ public class ItemDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 	
 	public static Item convert(ResultSet result) throws SQLException {

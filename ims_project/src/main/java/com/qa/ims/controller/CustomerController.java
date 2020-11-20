@@ -42,10 +42,12 @@ public class CustomerController implements CrudController<Customer>  {
 		LOGGER.info("Phone Number?");
 		Long phone = util.getLong();
 		Customer customer = custDAO.create(new Customer(f_name, l_name, email, phone));
+		LOGGER.info("\n");
 		LOGGER.info("Customer created");
 		 //new customer which was created;
+		LOGGER.info("\n");
 		return customer;
-	
+		
 	}
 	
 	
@@ -62,6 +64,7 @@ public class CustomerController implements CrudController<Customer>  {
 				LOGGER.info(customer.toString());
 
 		}
+		LOGGER.info("\n");
 		return customers;	
 
 		
@@ -87,8 +90,9 @@ public class CustomerController implements CrudController<Customer>  {
 		Long phone = util.getLong();
 		f_name = f_name.toLowerCase();
 		l_name = l_name.toLowerCase();
+		LOGGER.info("\n");
 		return custDAO.update(new Customer(f_name, l_name, email, phone));
-	
+		
 	}
 	
 	/**
@@ -106,7 +110,7 @@ public class CustomerController implements CrudController<Customer>  {
 				Long id = util.getLong();
 				custDAO.deleteById(id);
 			
-			
+				LOGGER.info("\n");
 		return null;
 	}
 
