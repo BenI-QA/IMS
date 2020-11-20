@@ -100,9 +100,12 @@ Example
 Here we are testing the the onjects used in the create() function within the customer controller.
 
 ## Deployment
-Either run the .jar file throught powershell or command line javac "file.jar" then java "file.java"
+To run your .jar file for your project move into the command line or power shell, move to the file location for your .jar file and enter
+```
+java -jar 'file'.jar
+```
+This will then run your test on your system and open your up to the first class of your project which is the runner and it will ask you for login details
 
-Run through IDE editor in eclipse for testing
 ## Built With
 
 * [Maven](https://maven.apache.org/) - Dependency Management
