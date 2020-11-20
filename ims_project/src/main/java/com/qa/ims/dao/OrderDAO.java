@@ -135,7 +135,7 @@ public class OrderDAO {
 	
 	
 	public List<Order> updateEdit(Long o_id, Long i_id, Long quant) {
-		String edit, readbback;
+		String edit, readback;
 		//editing specific order
 		
 			edit = "UPDATE Item_Order SET quantity = "+quant + " WHERE order_id ="+o_id+" AND item_id = "+ i_id+";";
