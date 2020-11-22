@@ -12,48 +12,103 @@ Once you have eclipse open, go into your workspace and open "Open Project". Loca
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-I was not able to run this as a fat .jar file for this project therefore it will be required to be run within the IDE eclipse
-
 ### Prerequisites
 
 
 Eclipse version 20.6 : A IDE which is highly compatible with work with java projects
 jdk-8.271 : This allows you to compile java programs within windows. This can be found on the oricle websites:
-
-What things you need to install the software and how to install them
-
-####Eclipse
+A google cloud sql database has already been setup therefore no sql installation is required on your system.
 
 #### JDK-8.271 installation
--Once you have downloaded the jdk file, run it and follow the installation procecdure to enable it on your operating system.
--Once the installation is complete go to your "Edit your system Environment Variables" in your windows search bar.
--Click on "Environement Variables.." toward the bottom right of the window
--In the new popup window, we will create our new JAVA_HOME variable and give it a value corresponding to our JDK folder.
--Click "OK" and we should now see our new JAVA_HOME system variable in the "System variables" box.
--Now we need to edit the "Path" variable to include a reference to the /bin (binary files) folder in our JAVA_HOME.
--To do this select the "Path" variable under "System variables" and then click "Edit...".
--You need to append the path of the Java /bin folder to this "Path" variable, so to do this, we will reference the JAVA_HOME variable we created like so: %JAVA_HOME%\bin
--When you have done this your "Path" variable make sure that there is a semi-colon before and after %JAVA_HOME%\bin.
+ Once you have downloaded the jdk file, run it and follow the installation procecdure to enable it on your operating system.
+- Once the installation is complete go to your "Edit your system Environment Variables" in your windows search bar.
+- Click on "Environement Variables.." toward the bottom right of the window
+- In the new popup window, we will create our new JAVA_HOME variable and give it a value corresponding to our JDK folder.
+- Click "OK" and we should now see our new JAVA_HOME system variable in the "System variables" box.
+- Now we need to edit the "Path" variable to include a reference to the /bin (binary files) folder in our JAVA_HOME.
+- To do this select the "Path" variable under "System variables" and then click "Edit...".
+- You need to append the path of the Java /bin folder to this "Path" variable, so to do this, we will reference the JAVA_HOME variable we created like so: %JAVA_HOME%\bin
+- When you have done this your "Path" variable make sure that there is a semi-colon before and after %JAVA_HOME%\bin.
+
+
 
 #### Maven Installtion
 Download the maven installation file which can be found here: https://maven.apache.org/download.cgi \n
--Save the maven file into your c:\program files.
--Once again go into your system variables and add two new variables.
--Setting the path of Maven in environment Variables: 
+- Save the maven file into your c:\program files.
+- Once again go into your system variables and add two new variables.
+- Setting the path of Maven in environment Variables: 
 - Search the Environment Variable --> Edit the System Environment variables--> Navigate to Advanced tab --> Environment --Variables)
 - MAVEN_HOME : Click New --> Variable Name : MAVEN_HOME , Variable Value: C:\Program Files\apache-maven-3.5.2ii)
 - M2_HOME : Click New --> Variable Name : M2_HOME , --Variable Value: C:\Program Files\apache-maven-3.5.2iii) Edit the 'Path' Environment Variable --> %M2_HOME%\binTesting -whether Maven is installed: mvn -version
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+From this github repository click on the option to "clone"
+On your local machine use git bash to move into a directory in which you would like your git repository to be located.
+Use the command:
+```
+git clone https://github.com/BenI-QA/ims_project.git
+```
+This will import this repository to your selected file directory
 
-End with an example of getting some data out of the system or using it for a little demo
 
-## Running the tests
-Login details, to connect to the google cloud db:
+## Functionality
+
+###Login Details
+Login details, to connect to the google cloud db on your console:
 Username: root
- Password: Passwordunknown123!
+Password: Passwordunknown123!
+
+###Main menu
+When your first enter your program you have the options of either selecting between 'customer', 'order' or 'item':
+type in on the console your option:
+```
+1)Customer
+2)Order
+3)Item
+
+Input: 'customer'
+```
+### Adding a Customer
+This will then bring you to the customer menu where you can create, read, update or delete a customer:
+```
+1)Create
+2)Read
+3)Update
+4)Delete
+```
+If you choose the delete function you will be asked to input the customer details:
+```
+What is the customer first name?
+Ben
+What is the customer Last name?
+McManus
+What is the customer email?
+bm@gmail.com
+What is the customer phone No.?
+12345
+```
+### Reading a customer
+Selecting the read option from the menu will automatically present all of the customers current on the system.
+
+## Update Customer
+From this you can update the customer through their first and last name and the user is able to change the customer email or phone no
+```
+What is the customer firstname?
+Ben
+What is the customer lastname?
+Irwin
+What would you like to change the email to?
+change@gmail.com
+What would you like to change the phone no. to?
+54321
+```
+### Deleting a customer
+Doing into the delete menu the user is presented with a read of all customers on the system. Here they are able to delete a customer by their ID.
+```
+What Customer ID do you wish to delete?
+3
+```
 
 
 ### Unit Tests 
